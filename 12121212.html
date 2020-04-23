@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <title>헬스사거리</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+(function($) {
+  let bmi_matrix =[
+    {
+      id :'low_weight'
+          ,min_val :0
+       ,max_val : 18.5
+       ,msg : '저체중'
+    },{
+      id :'standard_weight'
+          ,min_val :18.5
+       ,max_val : 23
+       ,msg : '정상'
+    },{
+      id :'over_weight'
+          ,min_val :23
+       ,max_val : 25
+       ,msg : '과체중'
+    },{
+      id :'mild_obesity'
+          ,min_val :25
+       ,max_val : 30
+       ,msg : '경도비만'
+    },{
+      id :'moderate_obesity'
+          ,min_val :30
+       ,max_val : 9999999999999
+       ,msg : '중등비만'
+    }
+  ]
+  $("#i_stature"),on('change keyup paste',function(){
+    setBMIresult();
+  });
+  $("#i_weight"),on('change keyup paste',function(){
+    setBMIresult();
+  });
+  setBMIresult = () => {
+    let i_stature = $("#i_stature").val();
+    let i_weight = $("#i_weight").val();
+    i_stature = i_stature / 100;
+    let bmi_result =(i_weight / (i_stature * i_stature));
+     console.log("bmi_result",bmi_result);
+     let bmi_msg;
+     for(let bm of bmi_matrix){
+         if(bmi_result>=bm.min_val&&bmi_result<bm.min_val){
+           bmi_msg =bm.msg;
+         }
+     }
+     $(".bmi_result").text(aprseFloat(bmi_result).tofixed(2)+""+bmi_msg+"입니다.");
+     return;
+     if( i_stature<100) {$("#stnr_stature").text("");return;}
+     let stnr_weight = (i_stature-100) * (i_stature > 150 ? 0.9 :1);
+     $("#stnr_weight").val(stnr_weight);
+     let bmi_result2=(i_weight-stnr_weight) / stnr_weight * 100;
+     $("#bmi_result").val(parseFloat(bmi_result).tofixed(2));
+     console.log("bmi_result :", bmi_result);
+  }
+})(jQuery);
+</script>
+
+
+
+<style>
+#titleimg{
+ border-radius: 10%;
+}
+  #topMenu {
+   height: 30px;
+   width: 1000px;
+   margin: 0 auto;
+        }
+
+  #topMenu ul li {
+   list-style: none;
+   color: white;
+   background-color: #2d2d2d;
+   float: left;
+   line-height: 35px;
+   vertical-align: middle;
+   text-align: center;
+   }
+
+  #topMenu .menuLink {
+   text-decoration:none;
+   color: white;
+   display: block;
+   width: 150px;
+   font-size: 12px;
+   font-weight: bold;
+   font-family: "Trebuchet MS";
+   }
+  #topMenu .menuLink:hover {
+   color: red;
+   background-color: #4d4d4d;
+        }
+  </style>
+  </head>
+
+  <body>
+    <p style="text-align:center;"><a href="index.html"><img id="titleimg" src="title.jpg" width="255.59px" height="130px" border="0"></a></p>
+    <nav id="topMenu" >
+    		<ul>
+    			<li><a class="menuLink" href="http://unikys.tistory.com/category/Programming%20Lecture/%EB%B0%91%EB%B0%94%EB%8B%A5%EB%B6%80%ED%84%B0%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%A7%8C%EB%93%A4%EA%B8%B0">용어사전</a></li>
+    			<li>|</li>
+    			<li><a class="menuLink" href="http://unikys.tistory.com/guestbook">용품</a></li>
+    			<li>|</li>
+    			<li><a class="menuLink" href="http://unikys.tistory.com/tag">논문</a></li>
+    			<li>|</li>
+    			<li><a class="menuLink" href="http://unikys.tistory.com/location">대회 정리</a></li>
+          <li>|</li>
+          <li><a class="menuLink" href="http://unikys.tistory.com/location">선수 명단 </a></li>
+          <li>|</li>
+          <li><a class="menuLink" href="http://unikys.tistory.com/location">운동</a></li>
+
+    		</ul>
+    	</nav>
+
+<p>비만도 체질량 지수 계산기(BMI)bmi지수계산기와&nbsp;계산법</p>
+<p>&nbsp;</p>
+<div>신장 :&nbsp; <input id="i_stature" style="text-align:center;" typr="nuber"/></div>
+<p>&nbsp;</p>
+<div>체중 :&nbsp; <input id="i_weight" style="text-align:center;" typr="nuber"/></div>
+<p>&nbsp;</p>
+<div style="font-weight: bold;">BMI 결과:&nbsp; <span style="text-align:center;" class="bmi_result"></span></div>
+<p>&nbsp;</p>
+
+
+</body>
+</html>
